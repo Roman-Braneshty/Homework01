@@ -15,6 +15,11 @@ def handle_other(filename: Path, target_folder: Path):
     filename.replace(target_folder / normalize(filename.name))
 
 
+def handle_unknown(filename: Path, target_folder: Path):
+    target_folder.mkdir(exist_ok=True, parents=True)
+    filename.replace(target_folder / normalize(filename.name))
+
+
 def handle_archive(filename: Path, target_folder: Path):
     target_folder.mkdir(exist_ok=True, parents=True)
     folder_for_file = target_folder / \
@@ -55,6 +60,8 @@ def main(folder: Path):
         handle_other(file, folder / 'OTHER')
     for file in parser.ARCHIVES:
         handle_archive(file, folder / 'archives')
+    for file in parser.UNKNOWN:
+        handle_unknown(file, folder / 'UNKNOWN')
     for folder in parser.FOLDERS[::-1]:
         handle_folder(folder)
 
