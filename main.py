@@ -55,6 +55,32 @@ def main(folder: Path):
         handle_media(file, folder / 'images' / 'SVG')
     for file in parser.MP3_AUDIO:
         handle_media(file, folder / 'audio' / 'MP3')
+    for file in parser.OGG_AUDIO:
+        handle_media(file, folder / 'audio' / 'OGG')
+    for file in parser.WAV_AUDIO:
+        handle_media(file, folder / 'audio' / 'WAV')
+    for file in parser.AMR_AUDIO:
+        handle_media(file, folder / 'audio' / 'AMR')
+    for file in parser.AVI_VIDEO:
+        handle_media(file, folder / 'video' / 'AVI')
+    for file in parser.MP4_VIDEO:
+        handle_media(file, folder / 'video' / 'MP4')
+    for file in parser.MOV_VIDEO:
+        handle_media(file, folder / 'video' / 'MOV')
+    for file in parser.MKV_VIDEO:
+        handle_media(file, folder / 'video' / 'MKV')
+    for file in parser.DOC_DOCUMENT:
+        handle_media(file, folder / 'document' / 'DOC')
+    for file in parser.DOCX_DOCUMENT:
+        handle_media(file, folder / 'document' / 'DOCX')
+    for file in parser.TXT_DOCUMENT:
+        handle_media(file, folder / 'document' / 'TXT')
+    for file in parser.PDF_DOCUMENT:
+        handle_media(file, folder / 'document' / 'PDF')
+    for file in parser.XLSX_DOCUMENT:
+        handle_media(file, folder / 'document' / 'XLSX')
+    for file in parser.PPTX_DOCUMENT:
+        handle_media(file, folder / 'document' / 'PPTX')
 
     for file in parser.OTHER:
         handle_other(file, folder / 'OTHER')
