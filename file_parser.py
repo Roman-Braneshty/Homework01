@@ -61,7 +61,7 @@ def get_extension(filename: str) -> str:
 def scan(folder: Path) -> None:
     for item in folder.iterdir():
         if item.is_dir():
-            if item.name not in ('archives', 'video', 'audio', 'documents', 'images', 'OTHER'):
+            if item.name not in ('archives', 'video', 'audio', 'documents', 'images', 'OTHER', 'UNKNOWN'):
                 FOLDERS.append(item)
                 scan(item)
             continue
