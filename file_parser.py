@@ -1,49 +1,47 @@
 import sys
 from pathlib import Path
-from tkinter import ARC
 
 JPEG_IMAGES = []
 JPG_IMAGES = []
 PNG_IMAGES = []
 SVG_IMAGES = []
-MP3_AUDIO = []
-OGG_AUDIO = []
-WAV_AUDIO = []
-AMR_AUDIO = []
 AVI_VIDEO = []
 MP4_VIDEO = []
 MOV_VIDEO = []
 MKV_VIDEO = []
-DOC_DOCUMENT = []
-DOCX_DOCUMENT = []
-TXT_DOCUMENT = []
-PDF_DOCUMENT = []
-XLSX_DOCUMENT = []
-PPTX_DOCUMENT = []
-
-
-OTHER = []
+DOC_DOCS = []
+DOCX_DOCS = []
+TXT_DOCS = []
+PDF_DOCS = []
+XLSX_DOCS = []
+PPTX_DOCS = []
+MP3_AUDIO = []
+OGG_AUDIO = []
+WAV_AUDIO = []
+AMR_AUDIO = []
 ARCHIVES = []
+OTHER = []
+
 
 REGISTER_EXTENSIONS = {
     'JPEG': JPEG_IMAGES,
-    'PNG': PNG_IMAGES,
     'JPG': JPG_IMAGES,
+    'PNG': PNG_IMAGES,
     'SVG': SVG_IMAGES,
-    'MP3': MP3_AUDIO,
-    'OGG': OGG_AUDIO,
-    'WAV': WAV_AUDIO,
-    'AMR': AMR_AUDIO,
     'AVI': AVI_VIDEO,
     'MP4': MP4_VIDEO,
     'MOV': MOV_VIDEO,
     'MKV': MKV_VIDEO,
-    'DOC': DOC_DOCUMENT,
-    'DOCX': DOCX_DOCUMENT,
-    'TXT': TXT_DOCUMENT,
-    'PDF': PDF_DOCUMENT,
-    'XLSX': XLSX_DOCUMENT,
-    'PPTX': PPTX_DOCUMENT,
+    'DOC': DOC_DOCS,
+    'DOCX': DOCX_DOCS,
+    'TXT': TXT_DOCS,
+    'PDF': PDF_DOCS,
+    'XLSX': XLSX_DOCS,
+    'PPTX': PPTX_DOCS,
+    'MP3': MP3_AUDIO,
+    'OGG': OGG_AUDIO,
+    'WAV': WAV_AUDIO,
+    'AMR': AMR_AUDIO,
     'ZIP': ARCHIVES,
     'GZ': ARCHIVES,
     'TAR': ARCHIVES
@@ -55,30 +53,38 @@ UNKNOWN = set()
 
 
 def get_extension(filename: str) -> str:
+    # превращаем расширение файла в название паки jpg -> JPG
     return Path(filename).suffix[1:].upper()
 
 
 def scan(folder: Path) -> None:
     for item in folder.iterdir():
+        # если это папка, то добавляем ее в список Folders и переходим к следующему элементу папки
         if item.is_dir():
-            if item.name not in ('archives', 'video', 'audio', 'documents', 'images', 'OTHER', 'UNKNOWN'):
+            # проверяем, чтоб папка не была той, в которую мы складываем уже файлы
+            if item.name not in ('images', 'video', 'audio', 'documents', 'archives', 'OTHER'):
                 FOLDERS.append(item)
+                # сканируем эту вложенную папку - рекурсия
                 scan(item)
+            # перейти к следующему эдементу в сканируемой папке
             continue
 
-        ext = get_extension(item.name)
-        fullname = folder / item.name
-        if not ext:
+        # Пошла работа с файлом
+
+        ext = get_extension(item.name)  # взять расширение
+        fullname = folder / item.name  # взять полный путь к файлу
+        if not ext:  # если у файла нет расширения, добавить к неизвестным
             OTHER.append(fullname)
         else:
             try:
+                # взять список куда положить полный путь к файлу
                 container = REGISTER_EXTENSIONS[ext]
                 EXTENSIONS.add(ext)
                 container.append(fullname)
             except KeyError:
+                # если мы не регистрировали расширение файла в Register_extension, то добавить в другое
                 UNKNOWN.add(ext)
                 OTHER.append(fullname)
-                
 
 
 if __name__ == '__main__':
@@ -86,27 +92,27 @@ if __name__ == '__main__':
     print(f'Start in folder {folder_for_scan}')
 
     scan(Path(folder_for_scan))
-    print(f'Images jpeg: {JPEG_IMAGES}')
-    print(f'Images jpg: {JPG_IMAGES}')
-    print(f'Images png: {PNG_IMAGES}')
-    print(f'Images svg: {SVG_IMAGES}')
-    print(f'Audio mp3: {MP3_AUDIO}')
-    print(f'Audio ogg: {OGG_AUDIO}')
-    print(f'Audio wav: {WAV_AUDIO}')
-    print(f'Audio amr: {AMR_AUDIO}')
-    print(f'Video avi: {AVI_VIDEO}')
-    print(f'Video mp4: {MP4_VIDEO}')
-    print(f'Video mov: {MOV_VIDEO}')
-    print(f'Video mkv: {MKV_VIDEO}')
-    print(f'Document doc: {DOC_DOCUMENT}')
-    print(f'Document docx: {DOCX_DOCUMENT}')
-    print(f'Document txt: {TXT_DOCUMENT}')
-    print(f'Document pdf: {PDF_DOCUMENT}')
-    print(f'Document xlsx: {XLSX_DOCUMENT}')
-    print(f'Document pptx: {PPTX_DOCUMENT}')
+    print(f'Images JPEG: {JPEG_IMAGES}')
+    print(f'Images PNG: {PNG_IMAGES}')
+    print(f'Images JPG: {JPG_IMAGES}')
+    print(f'Images SVG: {SVG_IMAGES}')
+    print(f'Video AVI: {AVI_VIDEO}')
+    print(f'Video MP4: {MP4_VIDEO}')
+    print(f'Video MOV: {MOV_VIDEO}')
+    print(f'Video MKV: {MKV_VIDEO}')
+    print(f'Documents DOC: {DOC_DOCS}')
+    print(f'Documents DOCX: {DOCX_DOCS}')
+    print(f'Documents TXT: {TXT_DOCS}')
+    print(f'Documents PDF: {PDF_DOCS}')
+    print(f'Documents XLSX: {XLSX_DOCS}')
+    print(f'Documents PPTX: {PPTX_DOCS}')
+    print(f'Audio MP3: {MP3_AUDIO}')
+    print(f'Audio OGG: {OGG_AUDIO}')
+    print(f'Audio WAV: {WAV_AUDIO}')
+    print(f'Audio AMR: {AMR_AUDIO}')
     print(f'Archives: {ARCHIVES}')
 
-    print(f'Types of files in folder: {EXTENSIONS}')
-    print(f'Unknown files of types: {UNKNOWN}')
+    print(f'There are following types of files: {EXTENSIONS}')
+    print(f'Unknown file types: {UNKNOWN}')
 
-    print(FOLDERS[::-1])
+    print({FOLDERS})
