@@ -78,6 +78,7 @@ def scan(folder: Path) -> None:
             except KeyError:
                 UNKNOWN.add(ext)
                 OTHER.append(fullname)
+                
 
 
 if __name__ == '__main__':
